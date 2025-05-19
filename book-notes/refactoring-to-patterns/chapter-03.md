@@ -2,9 +2,7 @@
 
 ## What Is a Pattern?
 
-Definiçâo de Christopher Alexander,
-
-"""
+Definição de Christopher Alexander,
 
 > Cada padrão é uma regra de três partes, que expressa uma relação entre um determinado contexto, um problema e uma solução.
 
@@ -22,7 +20,7 @@ Our industry's view of patterns has mostly been influenced by catalogs of indivi
 
 A ânsia e alegria em querer usar os DesignPattersn o tempo todo pode resultar em uma soluçâo super-etensivel e MUITO TRABHLO quando nâo se precisa.
 
-O exemplo a seguir é de um HelloWorld A programmer named Jason Tiscioni, writing on SlashDot (see http://developers.slashdot.org/comments.pl? sid=33602&cid=3636102), perfectly caricatured patterns-happy code with the following version of Hello World. 
+O exemplo a seguir é de um HelloWorld A programmer named Jason Tiscioni, writing on SlashDot (see http://developers.slashdot.org/comments.pl? sid=33602&cid=3636102), perfectly caricatured patterns-happy code with the following version of Hello World.
 
 ````java
 interface MessageStrategy {
@@ -51,39 +49,40 @@ class MessageBody {
 
 class DefaultFactory extends AbstractStrategyFactory {
 
-	private DefaultFactory() {
+	private DefaultFactory() {}
+
+	static DefaultFactory instance;
+
+	public static AbstractStrategyFactory getInstance() {
+		if (instance == null)
+		instance = new DefaultFactory();
+		return instance;
 	}
-static DefaultFactory instance;
-public static AbstractStrategyFactory
-getInstance() {
-if (instance == null)
-instance = new DefaultFactory();
-return instance;
+
+	public MessageStrategy createStrategy(final MessageBody mb) {
+		return new MessageStrategy() {
+			MessageBody body = mb;
+			public void sendMessage() {
+				Object obj = body.getPayload();
+				System.out.println(obj);
+			}
+		};
+	}
 }
-public MessageStrategy createStrategy(final
-MessageBody mb) {
-return new MessageStrategy() {
-MessageBody body = mb;
-public void sendMessage() {
-Object obj = body.getPayload();
-System.out.println(obj);
-}
-};}
-}
+
 public class HelloWorld {
-public static void main(String[] args) {
-MessageBody mb = new MessageBody();
-mb.configure("Hello World!");
-AbstractStrategyFactory asf =
-DefaultFactory.getInstance();
-MessageStrategy strategy =
-asf.createStrategy(mb);
-mb.send(strategy);
-}
+
+	public static void main(String[] args) {
+		MessageBody mb = new MessageBody();
+		mb.configure("Hello World!");
+		AbstractStrategyFactory asf = DefaultFactory.getInstance();
+		MessageStrategy strategy = asf.createStrategy(mb);
+		mb.send(strategy);
+	}
 }
 ````
 
- Talvez seja impossível evitar a felicidade dos padrões no caminho para aprender padrões. Na verdade, a maioria de nós aprende cometendo erros. Já fui padrão feliz em mais de uma ocasião. A verdadeira alegria dos padrões vem de usá-los com sabedoria. A refatoração nos ajuda a fazer isso concentrando nossa atenção na remoção. 
+ Talvez seja impossível evitar a felicidade dos padrões no caminho para aprender padrões. Na verdade, a maioria de nós aprende cometendo erros. Já fui padrão feliz em mais de uma ocasião. A verdadeira alegria dos padrões vem de usá-los com sabedoria. A refatoração nos ajuda a fazer isso concentrando nossa atenção na remoção.
 
 de duplicações, simplificando o código e fazendo com que o código comunique sua intenção. Quando os padrões evoluem para um sistema por meio de refatoração, há menos chance de superengenharia com padrões. Quanto melhor você conseguir refatorar, mais chances terá de encontrar a alegria dos padrões.
 
@@ -97,7 +96,7 @@ JUMP: Mostra uma tabela dos proceçoes de refatoraçao
 
 ## Do Patterns Make Code More Complex?
 
-Chat GPT: 
+Chat GPT:
 
 O trecho descreve uma situação em que Bobby, um programador experiente em padrões de projeto, fez uma refatoração em um código. John, um programador menos experiente e pouco familiarizado com padrões, achou que a refatoração tornou o código mais complexo. O autor, que estava trabalhando com John, percebeu que a falta de conhecimento de John sobre o padrão Composite era a causa de sua insatisfação. O autor ofereceu-se para ensinar a John o padrão Composite, e depois de aprender sobre ele, John reconheceu que o código não era tão complexo quanto ele pensava, embora não tenha considerado melhor do que o código anterior. O autor, por sua vez, considerou a refatoração de Bobby uma melhoria significativa, removendo código duplicado, simplificando a lógica e tornando a descoberta de regras de validação mais simples. O trecho enfatiza a importância da familiaridade com padrões de projeto na percepção das refatorações baseadas em padrões e destaca a necessidade de equipes aprenderem padrões para aproveitá-los adequadamente.
 
@@ -107,7 +106,7 @@ O trecho destaca a importância do conhecimento de padrões de projeto na evolu�
 
 ## Up-Front Design with Patterns
 
-Chat GPT: 
+Chat GPT:
 
 Em 1996, uma empresa de música e televisão procurou criar uma versão em Java do seu site. Eles não tinham a expertise necessária para construir o site e começaram a buscar um parceiro de desenvolvimento. A Industrial Logic foi contatada e conduziu uma reunião para discutir o design da interface do usuário e os requisitos do site. Eles decidiram utilizar padrões de design, em particular o padrão Command e o padrão Interpreter, para controlar o comportamento do site.
 
@@ -117,7 +116,4 @@ Durante os meses seguintes, eles programaram o site seguindo o design estabeleci
 
 Embora o design antecipado (BDUF) seja frequentemente problemático, neste caso específico ele foi essencial para o sucesso do projeto, pois permitiu que a empresa ganhasse o contrato. O design inicial com os padrões Command e Interpreter foi crucial. No entanto, o projeto enfrentou atrasos de um mês devido a problemas com navegadores de internet e a necessidade de fazer modificações para lidar com defeitos específicos dos navegadores.
 
-Após essa experiência, o autor passou a adotar uma abordagem de evolução do sistema e refatoração de padrões em projetos futuros, com exceção do padrão Command, que continuou sendo usado no início do design. O autor reconhece que o design antecipado com padrões tem seu lugar, mas deve ser utilizado com moderação. 
-
-
-
+Após essa experiência, o autor passou a adotar uma abordagem de evolução do sistema e refatoração de padrões em projetos futuros, com exceção do padrão Command, que continuou sendo usado no início do design. O autor reconhece que o design antecipado com padrões tem seu lugar, mas deve ser utilizado com moderação.
